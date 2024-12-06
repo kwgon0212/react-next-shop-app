@@ -10,6 +10,9 @@ import Button from "@/components/button/Button";
 import Link from "next/link";
 import LogoPath from "@/assets/colorful.svg";
 import Divider from "@/components/divider/Divider";
+import { toast } from "react-toastify";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase/firebase";
 
 const RegisterClient = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +24,23 @@ const RegisterClient = () => {
 
   const registerUser = (e) => {
     e.preventDefault();
+    if (password !== cPassword) {
+      return toast.error("비밀번호가 일치하지 않습니다");
+    }
     setIsLoading(true);
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        setIsLoading(false);
+        toast.success("회원가입 성공!");
+        router.push("/login");
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        toast.error(err.message);
+      });
   };
 
   return (
