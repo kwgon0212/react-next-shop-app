@@ -12,6 +12,13 @@ import AutoSigninCheckbox from "@/components/autoSigninCheckbox/AutoSigninCheckb
 import Divider from "@/components/divider/Divider";
 import Button from "@/components/button/Button";
 import Link from "next/link";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth } from "@/firebase/firebase";
+import { toast } from "react-toastify";
 
 const LoginClient = () => {
   const [email, setEmail] = useState("");
@@ -26,9 +33,32 @@ const LoginClient = () => {
   const loginUser = (e) => {
     e.preventDefault();
     setIsLoading(true);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setIsLoading(false);
+        toast.success("로그인 성공!");
+        redirectUser();
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        toast.error(err.message);
+      });
   };
 
-  const signInWithGoogle = () => {};
+  const signInWithGoogle = () => {
+    setIsLoading(true);
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        setIsLoading(false);
+        toast.success("로그인 성공!");
+        redirectUser();
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        toast.error(err.message);
+      });
+  };
 
   return (
     <>
