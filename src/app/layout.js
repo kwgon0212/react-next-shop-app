@@ -1,6 +1,7 @@
 import "@/app/globals.css";
 import ToastProvider from "@/components/toastProvider/ToastProvider";
 import Footer from "@/layouts/footer/Footer";
+import Header from "@/layouts/header/Header";
 
 export const metadata = {
   title: "Create Next App",
@@ -12,6 +13,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <ToastProvider />
+        <Header />
         {children}
         <Footer />
       </body>
