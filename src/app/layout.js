@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import ToastProvider from "@/components/toastProvider/ToastProvider";
 import Footer from "@/layouts/footer/Footer";
 import Header from "@/layouts/header/Header";
+import ReduxProvider from "@/redux/Provider";
 
 export const metadata = {
   title: "Create Next App",
@@ -12,10 +13,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <ToastProvider />
-        <Header />
-        {children}
-        <Footer />
+        <ReduxProvider>
+          <ToastProvider />
+          <Header />
+          {children}
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );
